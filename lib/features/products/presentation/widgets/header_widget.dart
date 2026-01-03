@@ -12,7 +12,7 @@ class HeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Gap(AppDimens.h_63.h),
+        Gap(AppDimens.h_50.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

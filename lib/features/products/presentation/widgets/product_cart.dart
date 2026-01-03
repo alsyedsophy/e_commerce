@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:e_commerce/core/routing/app_routs.dart';
 import 'package:e_commerce/core/themes/app_colors.dart';
 import 'package:e_commerce/core/themes/app_dimens.dart';
 import 'package:e_commerce/core/themes/app_text_style.dart';
@@ -9,6 +10,7 @@ import 'package:e_commerce/features/products/presentation/widgets/favorite_widge
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductCart extends StatelessWidget {
   const ProductCart({super.key, required this.product});
@@ -17,9 +19,8 @@ class ProductCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        log("message");
-      },
+      onTap: () =>
+          context.pushNamed(AppRouts.productDetailsScreen, extra: product),
       child: SizedBox(
         height: AppDimens.h_280.h,
         width: AppDimens.w_159.w,

@@ -14,11 +14,13 @@ class AppDimens {
   static const int h_20 = 20;
   static const int h_24 = 24;
   static const int h_23 = 23;
-  static const int h_63 = 63;
+  static const int h_50 = 50;
   static const int h_80 = 80;
   static const int h_220 = 220;
   static const int h_280 = 280;
   static const int h_282 = 282;
+  static const int h_397 = 397;
+  static const double verticale_17 = 17;
 
   // Width
   static const int w_10 = 10;

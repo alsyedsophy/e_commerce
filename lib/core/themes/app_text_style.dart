@@ -40,6 +40,12 @@ class AppTextStyle {
     fontSize: 20,
     color: AppColors.textPrimaryColor,
   );
+  static const TextStyle text24largeStyle = TextStyle(
+    fontFamily: AppConstants.textFamily,
+    fontWeight: FontWeight.w700,
+    fontSize: 24,
+    color: AppColors.textPrimaryColor,
+  );
   static const TextStyle textNotificationStyle = TextStyle(
     fontFamily: AppConstants.textFamily,
     fontWeight: FontWeight.w500,

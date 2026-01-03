@@ -36,7 +36,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Gap(AppDimens.h_63.h),
+              Gap(AppDimens.h_50.h),
               BackButtonWidget(),
               Gap(AppDimens.h_16.h),
               Text(
@@ -61,7 +61,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               extra: category,
                             ),
                             child: Container(
-                              height: AppDimens.h_63.h,
+                              height: AppDimens.h_50.h,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: AppColors.greyColor,
