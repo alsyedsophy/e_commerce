@@ -5,11 +5,13 @@ import 'package:e_commerce/features/auth/presentation/screen/login_screen.dart';
 import 'package:e_commerce/features/auth/presentation/screen/register_screen.dart';
 import 'package:e_commerce/features/auth/presentation/screen/send_email_screen.dart';
 import 'package:e_commerce/features/products/domain/entities/cateroty.dart';
+import 'package:e_commerce/features/products/domain/entities/product.dart';
 import 'package:e_commerce/features/products/presentation/bloc/category/category_cubit.dart';
 import 'package:e_commerce/features/products/presentation/bloc/product/product_cubit.dart';
 import 'package:e_commerce/features/products/presentation/screens/buttom_nav_wrapper.dart';
 import 'package:e_commerce/features/products/presentation/screens/categories_screen.dart';
 import 'package:e_commerce/features/products/presentation/screens/home_screen.dart';
+import 'package:e_commerce/features/products/presentation/screens/product_details.dart';
 import 'package:e_commerce/features/products/presentation/screens/products_screen.dart';
 import 'package:e_commerce/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +58,14 @@ class RouterGenarationConfig {
             create: (context) => sl<ProductCubit>(),
             child: ProductsScreen(category: category),
           );
+        },
+      ),
+      GoRoute(
+        path: AppRouts.productDetailsScreen,
+        name: AppRouts.productDetailsScreen,
+        builder: (context, state) {
+          Product product = state.extra as Product;
+          return ProductDetails(product: product);
         },
       ),
       ShellRoute(

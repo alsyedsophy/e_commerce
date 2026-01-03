@@ -36,7 +36,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Gap(AppDimens.h_63.h),
+              Gap(AppDimens.h_50.h),
               BackButtonWidget(),
               Gap(AppDimens.h_16.h),
               Text(

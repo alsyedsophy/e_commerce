@@ -3,7 +3,7 @@ class Product {
   final String name;
   final String description;
   final double price;
-  final double? discountPrice;
+  final int? discountPresentage;
   final String categoryId;
   final String categoryName;
   final List<String> imageUrls;
@@ -21,7 +21,7 @@ class Product {
     required this.name,
     required this.description,
     required this.price,
-    required this.discountPrice,
+    required this.discountPresentage,
     required this.categoryId,
     required this.categoryName,
     required this.imageUrls,
@@ -40,7 +40,7 @@ class Product {
     String? name,
     String? description,
     double? price,
-    double? discountPrice,
+    int? discountPresentage,
     String? categoryId,
     String? categoryName,
     List<String>? imageUrls,
@@ -58,7 +58,7 @@ class Product {
       name: name ?? this.name,
       description: description ?? this.description,
       price: price ?? this.price,
-      discountPrice: discountPrice ?? this.discountPrice,
+      discountPresentage: discountPresentage ?? this.discountPresentage,
       categoryId: categoryId ?? this.categoryId,
       categoryName: categoryName ?? this.categoryName,
       imageUrls: imageUrls ?? this.imageUrls,
@@ -74,13 +74,14 @@ class Product {
   }
 
   bool get isStock => stock > 0;
-  bool get hasDiscount => discountPrice != null;
-  double get finalPrice => discountPrice ?? price;
+  bool get hasDiscount => discountPresentage != null;
+  double get finalPrice =>
+      hasDiscount ? (price - ((price / 100) * discountPresentage!)) : price;
 
-  int get discountPresentage {
-    if (!hasDiscount) return 0;
-    return (((price - discountPrice!) / price) * 100).round();
-  }
+  // int get discountPresentage {
+  //   if (!hasDiscount) return 0;
+  //   return (((price - discountPrice!) / price) * 100).round();
+  // }
 
   String get firstImage => imageUrls.isNotEmpty ? imageUrls.first : "";
 }

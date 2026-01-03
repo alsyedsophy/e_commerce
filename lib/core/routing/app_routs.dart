@@ -9,6 +9,7 @@ class AppRouts {
   static const String homeScreen = '/home';
   static const String categoriesScreen = '/categories';
   static const String productsScreen = '/products';
+  static const String productDetailsScreen = '/productDetails';
 
   // Profile
   static const String profileScreen = '/profile';
