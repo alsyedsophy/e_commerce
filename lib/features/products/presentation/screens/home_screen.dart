@@ -1,3 +1,4 @@
+import 'package:e_commerce/core/routing/app_routs.dart';
 import 'package:e_commerce/core/themes/app_dimens.dart';
 import 'package:e_commerce/features/products/presentation/bloc/category/category_cubit.dart';
 import 'package:e_commerce/features/products/presentation/bloc/product/product_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header
-              HeaderWidget(),
+              HeaderWidget(onTap: () => context.pushNamed(AppRouts.cartScreen)),
               // Search
               SearchWidget(),
               Gap(AppDimens.h_24.h),

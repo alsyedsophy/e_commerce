@@ -13,4 +13,7 @@ class AppRouts {
 
   // Profile
   static const String profileScreen = '/profile';
+
+  // Cart
+  static const String cartScreen = '/cart';
 }

@@ -52,6 +52,7 @@ class AuthRemoteDataSoureImpl implements AuthRemoteDataSource {
         email: email,
         password: password,
       );
+      log(userCredential.toString());
 
       return await _getOrCreateInFirestore(userCredential.user!);
     } on firebase_auth.FirebaseAuthException catch (e) {
@@ -242,7 +243,7 @@ class AuthRemoteDataSoureImpl implements AuthRemoteDataSource {
       default:
         log("e.description : ${e.description} - e.details : ${e.details}");
         return Exception(
-          "Faild To Sign in By Google ${e.description} - ${e.details}",
+          "Faild To Sign in By Google in DatanSourse ${e.description} - ${e.details}",
         );
     }
   }

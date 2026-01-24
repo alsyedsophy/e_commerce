@@ -28,7 +28,10 @@ class _SendEmailScreenState extends State<SendEmailScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
-              Image.asset("assets/icons/image.png", width: AppDimens.w_100.w),
+              Image.asset(
+                AppConstants.sendemailImage,
+                width: AppDimens.w_100.w,
+              ),
               Gap(AppDimens.h_24.h),
               Text(
                 AppConstants.sendEmail,

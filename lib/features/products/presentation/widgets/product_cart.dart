@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/core/routing/app_routs.dart';
 import 'package:e_commerce/core/themes/app_colors.dart';

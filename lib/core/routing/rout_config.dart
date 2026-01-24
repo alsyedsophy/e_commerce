@@ -4,6 +4,7 @@ import 'package:e_commerce/features/auth/presentation/screen/forget_password_scr
 import 'package:e_commerce/features/auth/presentation/screen/login_screen.dart';
 import 'package:e_commerce/features/auth/presentation/screen/register_screen.dart';
 import 'package:e_commerce/features/auth/presentation/screen/send_email_screen.dart';
+import 'package:e_commerce/features/cart/presentation/screens/cart_screen.dart';
 import 'package:e_commerce/features/products/domain/entities/cateroty.dart';
 import 'package:e_commerce/features/products/domain/entities/product.dart';
 import 'package:e_commerce/features/products/presentation/bloc/category/category_cubit.dart';
@@ -67,6 +68,11 @@ class RouterGenarationConfig {
           Product product = state.extra as Product;
           return ProductDetails(product: product);
         },
+      ),
+      GoRoute(
+        path: AppRouts.cartScreen,
+        name: AppRouts.cartScreen,
+        builder: (context, state) => CartScreen(),
       ),
       ShellRoute(
         builder: (context, state, child) => MultiBlocProvider(

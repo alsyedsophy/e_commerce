@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:e_commerce/core/constants/app_constants.dart';
 import 'package:e_commerce/core/routing/app_routs.dart';
@@ -50,7 +50,7 @@ class HomeResultView extends StatelessWidget {
                 previous.featuredProduct != current.featuredProduct ||
                 previous.isFeatureLoading != current.isFeatureLoading,
             builder: (context, state) {
-              log("Featured state $state");
+              // log("Featured state $state");
               if (state.featuredProduct.isNotEmpty) {
                 return SizedBox(
                   height: AppDimens.h_282.h,
@@ -83,7 +83,7 @@ class HomeResultView extends StatelessWidget {
                 previous.newProduct != current.newProduct ||
                 previous.isNewLoading != current.isNewLoading,
             builder: (context, state) {
-              log("New state $state");
+              // log("New state $state");
               if (state.newProduct.isNotEmpty) {
                 return SizedBox(
                   height: AppDimens.h_282.h,

@@ -4,8 +4,10 @@ class AppConstants {
   // Icons Name
   static const String google = "assets/icons/Google.png";
   static const String back = "assets/icons/back.png";
-  static const String cart = "assets/icons/cart.png";
+  static const String cartIcon = "assets/icons/cart.png";
+  static const String sendemailImage = "assets/icons/image.png";
   static const String image = "assets/images/Rectangle 8.png";
+  static const String emptyCart = "assets/icons/empty_cart.png";
 
   // Auth Text
   static const String signin = "Sign in";
@@ -30,4 +32,13 @@ class AppConstants {
   static const String featured = "Top Featured";
   static const String newProducts = "New";
   static const String shopByCategories = "Shop by Categories";
+
+  // Cart
+  static const String removeAll = "Remove All";
+  static const String cart = "Cart";
+  static const String checkout = "Checkout";
+  static const String size = "Size - ";
+  static const String color = "Color - ";
+  static const String yourCartIsEmpty = "Your Cart is Empty";
+  static const String exploreCategories = "Explore Categories";
 }

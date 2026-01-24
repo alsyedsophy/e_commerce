@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce/core/constants/app_constants.dart';
 import 'package:e_commerce/core/routing/app_routs.dart';
 import 'package:e_commerce/core/themes/app_dimens.dart';
@@ -57,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
+        log(state.toString());
         if (state is AuthError) {
           ScaffoldMessenger.of(
             context,
