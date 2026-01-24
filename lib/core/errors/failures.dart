@@ -52,6 +52,11 @@ class HiveFailure extends Failures {
     : super(message: message, code: "HIVE_FAILURE");
 }
 
+class CartFailure extends Failures {
+  const CartFailure(String message)
+    : super(message: message, code: "CART_FAILURE");
+}
+
 // Validation Failures
 class InvalidInputFailure extends Failures {
   const InvalidInputFailure(String message)

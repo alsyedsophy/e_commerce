@@ -1,16 +1,17 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:e_commerce/core/themes/app_colors.dart';
 import 'package:e_commerce/core/themes/app_dimens.dart';
 import 'package:e_commerce/core/themes/app_text_style.dart';
 import 'package:e_commerce/core/widgets/back_button_widget.dart';
+import 'package:e_commerce/features/cart/presentation/cubit/cubit/cart_cubit.dart';
 import 'package:e_commerce/features/products/domain/entities/product.dart';
-import 'package:e_commerce/features/products/presentation/widgets/custom_attribute_title.dart';
+import 'package:e_commerce/features/products/presentation/widgets/custom_buttom_sheet.dart';
+import 'package:e_commerce/features/products/presentation/widgets/custom_cart_buttom.dart';
 import 'package:e_commerce/features/products/presentation/widgets/custom_choose_attribute.dart';
-import 'package:e_commerce/features/products/presentation/widgets/custom_choose_size.dart';
+import 'package:e_commerce/features/products/presentation/widgets/custom_choose_quantity.dart';
+import 'package:e_commerce/features/products/presentation/widgets/custom_product_images.dart';
+import 'package:e_commerce/features/products/presentation/widgets/custom_product_price.dart';
 import 'package:e_commerce/features/products/presentation/widgets/favorite_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
@@ -23,12 +24,17 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  late String currentSize;
+  late ValueNotifier<String> currentSizeNotifire;
+  late ValueNotifier<String> currentColorNotifire;
+  late ValueNotifier<int> quantityNotifire = ValueNotifier(1);
 
   @override
   void initState() {
     super.initState();
-    currentSize = 'S';
+    currentSizeNotifire = ValueNotifier(widget.product.attributes!['size'][0]);
+    currentColorNotifire = ValueNotifier(
+      widget.product.attributes!['color'][0],
+    );
   }
 
   @override
@@ -51,75 +57,107 @@ class _ProductDetailsState extends State<ProductDetails> {
                       children: [BackButtonWidget(), FavoriteWidget()],
                     ),
                     Gap(AppDimens.h_16.h),
-                    SizedBox(
-                      height: AppDimens.h_220.h,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          var image = widget.product.imageUrls[index];
-                          return CachedNetworkImage(
-                            imageUrl: image,
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                            // width: AppDimens.w_159.w,
-                            // height: AppDimens.h_220.h,
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Gap(AppDimens.w_14.w);
-                        },
-                        itemCount: widget.product.imageUrls.length,
-                      ),
-                    ),
+                    CustomProductImages(widget: widget),
                     Text(
                       widget.product.name,
                       style: AppTextStyle.text24largeStyle,
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          "${widget.product.finalPrice} .ج م",
-                          style: AppTextStyle.text24MediumStyle.copyWith(
-                            color: AppColors.primaryColor,
+                    CustomProductPrice(widget: widget),
+                    Gap(AppDimens.h_32.h),
+                    ValueListenableBuilder(
+                      valueListenable: currentSizeNotifire,
+                      builder: (context, value, child) {
+                        return GestureDetector(
+                          onTap: () async {
+                            final String? selectedSize =
+                                await showModalBottomSheet<String?>(
+                                  context: innerContext,
+                                  builder: (context) => CustomButtomSheet(
+                                    choise: List<String>.from(
+                                      widget.product.attributes?['size'],
+                                    ),
+                                    defultChoose: currentSizeNotifire,
+                                    title: "Size",
+                                  ),
+                                );
+                            if (selectedSize != null) {
+                              currentSizeNotifire.value = selectedSize;
+                            }
+                          },
+                          child: CustomChooseAttribute(
+                            title: "Size",
+                            defultChoose: currentSizeNotifire.value,
                           ),
-                        ),
-                        Gap(AppDimens.w_14.w),
-                        widget.product.hasDiscount
-                            ? Text(
-                                "${widget.product.price} .ج م",
-                                style: AppTextStyle.productNameStyle.copyWith(
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              )
-                            : SizedBox(),
-                      ],
+                        );
+                      },
                     ),
                     Gap(AppDimens.h_32.h),
-                    GestureDetector(
-                      onTap: () async {
-                        final String? selectedSize =
-                            await showModalBottomSheet<String?>(
-                              context: innerContext,
-                              builder: (context) => SizeButtomSheet(
-                                sizes: List<String>.from(
-                                  widget.product.attributes?['size'],
-                                ),
-                                defultSize: currentSize,
-                              ),
-                            );
-                        log(selectedSize.toString());
-                        if (selectedSize != null) {
-                          setState(() {
-                            currentSize = selectedSize;
-                          });
+                    ValueListenableBuilder(
+                      valueListenable: currentColorNotifire,
+                      builder: (context, value, child) {
+                        return GestureDetector(
+                          onTap: () async {
+                            final String? selectColor =
+                                await showModalBottomSheet<String?>(
+                                  context: innerContext,
+                                  builder: (context) => CustomButtomSheet(
+                                    choise: List<String>.from(
+                                      widget.product.attributes?['color'] ?? [],
+                                    ),
+                                    defultChoose: currentColorNotifire,
+                                    title: "Color",
+                                  ),
+                                );
+                            if (selectColor != null) {
+                              currentColorNotifire.value = selectColor;
+                            }
+                          },
+                          child: CustomChooseAttribute(
+                            title: 'Color',
+                            defultChoose: currentColorNotifire.value,
+                          ),
+                        );
+                      },
+                    ),
+                    Gap(AppDimens.h_32.h),
+                    ValueListenableBuilder(
+                      valueListenable: quantityNotifire,
+                      builder: (context, quantityValue, child) {
+                        return CustomChooseQuintity(
+                          onQuantity: (quantity) {
+                            quantityNotifire.value = quantity;
+                          },
+                        );
+                      },
+                    ),
+                    Gap(AppDimens.h_24.h),
+                    Text(
+                      widget.product.description,
+                      style: AppTextStyle.tetFielStyle,
+                    ),
+                    Gap(AppDimens.h_32.h),
+                    BlocConsumer<CartCubit, CartState>(
+                      listener: (context, state) {
+                        if (state is CartError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(state.message)),
+                          );
+                        }
+                        if (state is CartLoaded) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('تم اضافة المنتج بتجاح')),
+                          );
                         }
                       },
-                      child: CustomChooseAttribute(
-                        title: "Size",
-                        defultChoose: currentSize,
-                      ),
+                      builder: (context, state) {
+                        return CustomCartButtom(
+                          product: widget.product,
+                          state: state,
+                          quantityNotifire: quantityNotifire,
+                          sizeNotifire: currentSizeNotifire,
+                          colorNotifire: currentColorNotifire,
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -128,75 +166,6 @@ class _ProductDetailsState extends State<ProductDetails> {
           );
         },
       ),
-    );
-  }
-}
-
-class SizeButtomSheet extends StatefulWidget {
-  SizeButtomSheet({super.key, required this.sizes, required this.defultSize});
-  final List<String> sizes;
-  String defultSize;
-
-  @override
-  State<SizeButtomSheet> createState() => _SizeButtomSheetState();
-}
-
-class _SizeButtomSheetState extends State<SizeButtomSheet> {
-  late ValueNotifier<String> selectedSizeNotifire;
-  @override
-  void initState() {
-    super.initState();
-    selectedSizeNotifire = ValueNotifier<String>(widget.defultSize);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    selectedSizeNotifire.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: selectedSizeNotifire,
-      builder: (context, selectedSize, child) {
-        return Container(
-          height: AppDimens.h_397.h,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: AppColors.redColor,
-            borderRadius: BorderRadius.circular(AppDimens.r_20.r),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppDimens.horPadding_23,
-              vertical: AppDimens.verticale_17,
-            ),
-            child: Column(
-              children: [
-                CustomAttribureTitle(title: "Size"),
-                Gap(AppDimens.h_24.h),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      ...widget.sizes.map(
-                        (size) => CustomChooseSize(
-                          size: size,
-                          isSelected: selectedSize == size,
-                          onSelect: (selected) {
-                            selectedSizeNotifire.value = selected;
-                            Navigator.of(context).pop(selected);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
