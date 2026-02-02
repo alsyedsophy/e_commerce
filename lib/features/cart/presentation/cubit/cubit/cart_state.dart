@@ -1,61 +1,33 @@
-part of 'cart_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:e_commerce/features/cart/domain/entities/cart_item.dart';
+import 'package:e_commerce/features/cart/domain/entities/cart_total.dart';
 
-sealed class CartState extends Equatable {
-  const CartState();
+part 'cart_state.freezed.dart';
 
-  @override
-  List<Object> get props => [];
-}
+@freezed
+class CartState with _$CartState {
+  const factory CartState.initial() = CartInitial;
 
-final class CartInitial extends CartState {}
+  const factory CartState.loading() = CartLoading;
 
-class CartLoading extends CartState {}
+  const factory CartState.loaded({
+    required List<CartItem> items,
+    required CartTotal total,
+    required bool hasChanges,
+  }) = CartLoaded;
 
-class CartLoaded extends CartState {
-  final List<CartItem> items;
-  final double totalPrice;
-  final int itemsCount;
-  final String? errorMessage;
-  final String? errorItemId;
-
-  const CartLoaded({
-    required this.items,
-    required this.totalPrice,
-    required this.itemsCount,
-    this.errorMessage,
-    this.errorItemId,
-  });
-
-  CartLoaded copyWith({
+  const factory CartState.error({
+    required String message,
     List<CartItem>? items,
-    double? totalPrice,
-    int? itemsCount,
-    String? errorMessage,
-    String? errorItemId,
-  }) {
-    return CartLoaded(
-      items: items ?? this.items,
-      totalPrice: totalPrice ?? this.totalPrice,
-      itemsCount: itemsCount ?? this.itemsCount,
-      errorMessage: errorMessage,
-      errorItemId: errorItemId,
-    );
-  }
+    CartTotal? total,
+  }) = CartError;
 
-  @override
-  List<Object> get props => [
-    items,
-    totalPrice,
-    itemsCount,
-    ?errorMessage,
-    ?errorItemId,
-  ];
-}
+  const factory CartState.syncing() = CartSyncing;
 
-class CartError extends CartState {
-  final String message;
+  const factory CartState.synced({
+    required List<CartItem> items,
+    required CartTotal total,
+  }) = CartSynced;
 
-  const CartError({required this.message});
-  @override
-  List<Object> get props => [message];
+  const factory CartState.empty() = CartEmpty;
 }

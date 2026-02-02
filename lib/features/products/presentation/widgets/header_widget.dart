@@ -3,6 +3,7 @@ import 'package:e_commerce/core/themes/app_colors.dart';
 import 'package:e_commerce/core/themes/app_dimens.dart';
 import 'package:e_commerce/core/themes/app_text_style.dart';
 import 'package:e_commerce/features/cart/presentation/cubit/cubit/cart_cubit.dart';
+import 'package:e_commerce/features/cart/presentation/cubit/cubit/cart_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,9 +29,19 @@ class HeaderWidget extends StatelessWidget {
                 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
               ),
             ),
-            BlocSelector<CartCubit, CartState, int>(
-              selector: (state) => state is CartLoaded ? state.itemsCount : 0,
-              builder: (context, count) {
+            BlocBuilder<CartCubit, CartState>(
+              buildWhen: (previous, current) =>
+                  previous.runtimeType != current.runtimeType,
+              builder: (context, state) {
+                final count = state.when(
+                  initial: () => 0,
+                  loading: () => 0,
+                  loaded: (items, _, _) => items.length,
+                  error: (_, items, _) => items?.length ?? 0,
+                  syncing: () => 0,
+                  synced: (items, _) => 0,
+                  empty: () => 0,
+                );
                 return Stack(
                   children: [
                     GestureDetector(

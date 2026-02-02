@@ -41,4 +41,8 @@ class AppConstants {
   static const String color = "Color - ";
   static const String yourCartIsEmpty = "Your Cart is Empty";
   static const String exploreCategories = "Explore Categories";
+
+  // Hive
+  static const String cartBoxName = 'cart_box';
+  static const String cartItemsKey = 'cart_items';
 }

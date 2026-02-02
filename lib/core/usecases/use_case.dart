@@ -11,6 +11,10 @@ abstract class StreamUseCase<Type, Params> {
   Stream<Type> call(Params params);
 }
 
+abstract class CartUseCase<Type, Params> {
+  Future<Either<CartFailure, Type>> call(Params params);
+}
+
 class NoParams {
   const NoParams();
 }
