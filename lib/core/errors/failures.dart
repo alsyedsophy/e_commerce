@@ -14,6 +14,32 @@ class Failures extends Equatable {
   String toString() => "$code - $message";
 }
 
+//? Cart Failures
+sealed class CartFailure extends Equatable {
+  final String message;
+
+  const CartFailure({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class CartLocalFailure extends CartFailure {
+  const CartLocalFailure({required super.message});
+}
+
+class CartRemoteFailure extends CartFailure {
+  const CartRemoteFailure({required super.message});
+}
+
+class CartNetworkFailure extends CartFailure {
+  const CartNetworkFailure({required super.message});
+}
+
+class CartValidationFailure extends CartFailure {
+  const CartValidationFailure({required super.message});
+}
+
 // Network Failures
 class NetworkFailure extends Failures {
   const NetworkFailure(String message)
@@ -50,11 +76,6 @@ class CacheFailure extends Failures {
 class HiveFailure extends Failures {
   const HiveFailure(String message)
     : super(message: message, code: "HIVE_FAILURE");
-}
-
-class CartFailure extends Failures {
-  const CartFailure(String message)
-    : super(message: message, code: "CART_FAILURE");
 }
 
 // Validation Failures

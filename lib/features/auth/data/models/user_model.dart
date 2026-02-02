@@ -3,6 +3,7 @@ import 'package:e_commerce/features/auth/domain/entities/user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 class UserModel extends User {
+  // ignore: use_super_parameters
   UserModel({
     required String id,
     required String email,

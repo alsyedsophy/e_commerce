@@ -14,13 +14,14 @@ import 'package:e_commerce/features/auth/domain/usecases/send_password_reset_ema
 import 'package:e_commerce/features/auth/domain/usecases/update_profile_usecase.dart';
 import 'package:e_commerce/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:e_commerce/features/cart/data/data%20source/cart_local_data_source.dart';
+import 'package:e_commerce/features/cart/data/data%20source/cart_remote_datea_source.dart';
 import 'package:e_commerce/features/cart/data/repositories/cart_repo_impl.dart';
 import 'package:e_commerce/features/cart/domain/repositories/cart_repo.dart';
 import 'package:e_commerce/features/cart/domain/usecases/add_cart_item_use_case.dart';
 import 'package:e_commerce/features/cart/domain/usecases/clear_cart_use_case.dart';
 import 'package:e_commerce/features/cart/domain/usecases/get_all_cart_items_use_case.dart';
 import 'package:e_commerce/features/cart/domain/usecases/get_cart_item_count_use_case.dart';
-import 'package:e_commerce/features/cart/domain/usecases/get_total_price_use_case.dart';
+import 'package:e_commerce/features/cart/domain/usecases/calculate_total_cart_usecase.dart';
 import 'package:e_commerce/features/cart/domain/usecases/remove_cart_item_use_case.dart';
 import 'package:e_commerce/features/cart/domain/usecases/update_cart_item_use_case.dart';
 import 'package:e_commerce/features/cart/presentation/cubit/cubit/cart_cubit.dart';
@@ -61,7 +62,9 @@ Future<void> init() async {
   sl.registerFactory(() => CategoryCubit(sl()));
 
   // Cart
-  sl.registerFactory(() => CartCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory(
+    () => CartCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()),
+  );
 
   //? Usecases
   // Auth
@@ -89,9 +92,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddCartItemUseCase(cartRepo: sl()));
   sl.registerLazySingleton(() => UpdateCartItemUseCase(cartRepo: sl()));
   sl.registerLazySingleton(() => RemoveCartItemUseCase(cartRepo: sl()));
-  sl.registerLazySingleton(() => GetAllCartItemsUseCase(cartRepo: sl()));
+  sl.registerLazySingleton(() => GetCartItemsUseCase(cartRepo: sl()));
   sl.registerLazySingleton(() => ClearCartUseCase(cartRepo: sl()));
-  sl.registerLazySingleton(() => GetTotalPriceUseCase(cartRepo: sl()));
+  sl.registerLazySingleton(() => CalculateTotalCartUseCasee(cartRepo: sl()));
   sl.registerLazySingleton(() => GetCartItemCountUseCase(cartRepo: sl()));
 
   //? Reositories
@@ -106,7 +109,11 @@ Future<void> init() async {
 
   // Cart
   sl.registerLazySingleton<CartRepo>(
-    () => CartRepoImpl(cartLocalDataSource: sl()),
+    () => CartRepoImpl(
+      localDataSoyrce: sl(),
+      remoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
   );
 
   //? Data Source
@@ -126,6 +133,9 @@ Future<void> init() async {
   // Cart
   sl.registerLazySingleton<CartLocalDataSource>(
     () => CartLocalDataSourceImpl(box: sl()),
+  );
+  sl.registerLazySingleton<CartRemoteDateaSource>(
+    () => CartRemoteDataSourceImpl(sl(), sl()),
   );
 
   //? External Firebase

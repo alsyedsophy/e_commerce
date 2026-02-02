@@ -3,14 +3,24 @@ import 'package:e_commerce/core/errors/failures.dart';
 import 'package:e_commerce/features/cart/domain/entities/cart_item.dart';
 
 abstract class CartRepo {
-  Future<Either<Failures, List<CartItem>>> getAllCartItems();
-  Future<Either<Failures, void>> addCartItem(CartItem cartItem);
-  Future<Either<Failures, void>> updateCartItem(
+  //? Local Operations
+  Future<Either<CartFailure, List<CartItem>>> getCartItems();
+  Future<Either<CartFailure, void>> addToCart(CartItem cartItem);
+  Future<Either<CartFailure, void>> updateCartItem(
     CartItem cartItem, {
     int? quantity,
   });
-  Future<Either<Failures, void>> removeCartItem(CartItem cartItem);
-  Future<Either<Failures, void>> clearCart();
-  Future<Either<Failures, double>> getTotalPrice();
-  Future<Either<Failures, int>> getCartItemsCount();
+  Future<Either<CartFailure, void>> removeFromCart(CartItem cartItem);
+  Future<Either<CartFailure, void>> clearCart();
+  Future<Either<CartFailure, double>>
+  getTotalPrice(); // تتحذف احنا اصلا هنحسبها داخل ال Entity
+  Future<Either<CartFailure, int>> getCartItemsCount();
+  Future<Either<CartFailure, bool>> isInCart(CartItem cartItem);
+
+  //? Remote Operations
+  Future<Either<CartFailure, List<CartItem>>> getServerCart();
+  Future<Either<CartFailure, void>> syncCartWithServerCart(
+    List<CartItem> items,
+  );
+  Future<Either<CartFailure, void>> mergeLocalAndServerCart();
 }

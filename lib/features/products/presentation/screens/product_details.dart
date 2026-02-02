@@ -2,6 +2,7 @@ import 'package:e_commerce/core/themes/app_dimens.dart';
 import 'package:e_commerce/core/themes/app_text_style.dart';
 import 'package:e_commerce/core/widgets/back_button_widget.dart';
 import 'package:e_commerce/features/cart/presentation/cubit/cubit/cart_cubit.dart';
+import 'package:e_commerce/features/cart/presentation/cubit/cubit/cart_state.dart';
 import 'package:e_commerce/features/products/domain/entities/product.dart';
 import 'package:e_commerce/features/products/presentation/widgets/custom_buttom_sheet.dart';
 import 'package:e_commerce/features/products/presentation/widgets/custom_cart_buttom.dart';
